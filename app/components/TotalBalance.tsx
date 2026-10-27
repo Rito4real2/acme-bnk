@@ -21,7 +21,7 @@ export default function TotalBalance({ user }: TotalBalanceProps) {
   const [showBalance, setShowBalance] = useState(true);
 
   return (
-    <div className="bg-gray-900 p-3 flex md:flex-row items-center justify-between gap-6 w-full max-w-4xl mx-auto">
+    <div className="bg-gray-900 p-3 flex md:flex-row items-center justify-between gap-6 w-full max-w-4xl mx-auto mt-10">
       <div className="flex items-center justify-between w-full p-4 bg-gray-800 rounded-2xl text-white shadow-md">
         
         {/* Left Side: Label */}

@@ -22,7 +22,7 @@ interface ProfileDashboardClientProps {
 
 export default function ProfileDashboardClient({ user}: { user: UserProfile; }) {
   return (
-    <div className="bg-gray-900 p-1 flex md:flex-row items-center justify-between gap-6">
+    <div className="bg-gray-900 p-1 flex md:flex-row items-center justify-between gap-6 fixed top-0 w-full">
       
       {/* User Info + Avatar */}
       <div className="flex flex-row justify-between items-center gap-4">
