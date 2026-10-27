@@ -16,6 +16,7 @@ interface UserProfile {
   accountStatus: string;
   accountNumber: string;
   accountType: string;
+  currency: string;
 }
 
 interface AccountDetailsProps {
@@ -116,8 +117,8 @@ const AccountDetails = ({ user, children }: AccountDetailsProps) => {
 
             <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white">
               {showBalance 
-                ? `$${user.balance !== undefined ? user.balance.toFixed(2) : '0.00'}`
-                : '$••••••'
+                ? `${user.currency}${user.balance !== undefined ? user.balance.toFixed(2) : '0.00'}`
+                : `${user.currency}••••••`
               }
             </p>
 

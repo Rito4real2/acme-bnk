@@ -11,6 +11,7 @@ interface UserProfile {
   balance: number;
   role: 'user' | 'admin';
   avatarUrl?: string;
+  currency: string;
 }
 
 interface TotalBalanceProps {
@@ -21,7 +22,7 @@ export default function TotalBalance({ user }: TotalBalanceProps) {
   const [showBalance, setShowBalance] = useState(true);
 
   return (
-    <div className="bg-gray-900 p-3 flex md:flex-row items-center justify-between gap-6 w-full max-w-4xl mx-auto mt-10">
+    <div className="bg-gray-900 p-3 flex md:flex-row items-center justify-between gap-6 w-full max-w-4xl mx-auto mt-12">
       <div className="flex items-center justify-between w-full p-4 bg-gray-800 rounded-2xl text-white shadow-md">
         
         {/* Left Side: Label */}
@@ -31,8 +32,8 @@ export default function TotalBalance({ user }: TotalBalanceProps) {
         <div className="flex items-center gap-3">
           <span className="font-bold text-sm sm:text-base font-mono tracking-tight">
             {showBalance 
-              ? `$${user.balance !== undefined ? user.balance.toFixed(2) : '0.00'}`
-              : '$••••••'
+              ? `${user.currency}${user.balance !== undefined ? user.balance.toFixed(2) : '0.00'}`
+              : `${user.currency}••••••`
             }
           </span>
           <button

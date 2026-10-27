@@ -92,15 +92,21 @@ export default function UserChatWidget({ user }: { user: { _id: string; name: st
           )}
         </button>
       ) : (
-        <div className="bg-white w-80 h-96 rounded-2xl border shadow-2xl flex flex-col overflow-hidden">
+        <div className="bg-gray-200 w-80 h-96 rounded-2xl border border-gray-800 shadow-2xl flex flex-col overflow-hidden">
           {/* Header */}
-          <div className="bg-black text-white p-3 flex justify-between items-center text-xs font-bold">
-            <span>Support Chat</span>
+          <div className="bg-gray-800 text-white p-3 flex justify-between items-center text-xs font-bold">
+            <span><Image 
+          src='/images/support.svg' 
+          alt='Support'
+          width={24}
+          height={24}
+          >
+          </Image>Support Chat</span>
             <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white">✕</button>
           </div>
 
           {/* support message*/}
-          <div className='bg-white font-mono w-full flex items-center justify-center p-3'>
+          <div className='bg-gray-200 font-mono w-full flex items-center justify-center p-3'>
             <p className='text-xs text-gray-500'>Need help? send us a message, we usually reply within minutes.</p>
           </div>
 
@@ -111,7 +117,7 @@ export default function UserChatWidget({ user }: { user: { _id: string; name: st
                 key={i} 
                 className={`max-w-[75%] p-2.5 rounded-lg ${
                   msg.senderRole === 'user' 
-                    ? 'bg-black text-white ml-auto rounded-br-none' 
+                    ? 'bg-gray-700 text-white ml-auto rounded-br-none' 
                     : 'bg-gray-100 text-gray-800 mr-auto rounded-bl-none'
                 }`}
               >
@@ -128,9 +134,9 @@ export default function UserChatWidget({ user }: { user: { _id: string; name: st
               value={input} 
               onChange={e => setInput(e.target.value)} 
               placeholder="Type a message..."
-              className="flex-1 border rounded-lg px-2 py-1.5 text-xs focus:outline-none"
+              className="flex-1 border rounded-lg px-2 py-1.5 text-xs text-gray-900 focus:outline-none"
             />
-            <button type="submit" className="bg-black text-white px-3 py-1.5 rounded-lg text-xs font-bold">
+            <button type="submit" className="bg-gray-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
               Send
             </button>
           </form>

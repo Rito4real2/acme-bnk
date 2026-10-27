@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import ReceiptModal, { Transaction } from '@/components/ReceiptModal';
-import TransactionHistoryTable from '@/components/TransactionHistoryTable';
+import TransactionHistoryTable, { Loan } from '@/components/TransactionHistoryTable';
 import ProfileDashboardClient from '@/components/ProfileDashboardClient';
 import TotalBalance from '@/app/components/TotalBalance';
 import AccountDetails from '@/components/AccountDetails';
@@ -25,6 +25,7 @@ interface UserProfile {
   accountNumber: string;
   accountType: string;
   country: string;
+  currency: string;
 }
 
 export default function UserDashboard() {
@@ -33,6 +34,7 @@ export default function UserDashboard() {
   const [data, setData] = useState<{ 
     user: UserProfile; 
     transactions: Transaction[];
+    loans: Loan[];
   } | null>(null);
 
   useEffect(() => {
@@ -40,12 +42,16 @@ export default function UserDashboard() {
       try {
         const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-        const [profileRes, txRes] = await Promise.all([
+        const [profileRes, txRes, loansRes] = await Promise.all([
           fetch(`${API_BASE_URL}/api/users/profile`, {
             cache: 'no-store',
             credentials: 'include'
           }),
           fetch(`${API_BASE_URL}/api/transaction/my-history`, {
+            cache: 'no-store',
+            credentials: 'include'
+          }),
+          fetch(`${API_BASE_URL}/api/users/loans`, {
             cache: 'no-store',
             credentials: 'include'
           }),
@@ -58,9 +64,9 @@ export default function UserDashboard() {
 
         const user = await profileRes.json();
         const txData = txRes.ok ? await txRes.json() : null;
+        const loansData = loansRes.ok ? await loansRes.json() : null;
 
         let rawTransactions: Transaction[] = [];
-
         if (txData) {
           if (Array.isArray(txData)) {
             rawTransactions = txData;
@@ -74,7 +80,20 @@ export default function UserDashboard() {
           }
         }
 
-        setData({ user, transactions: rawTransactions});
+        let rawLoans: Loan[] = [];
+        if (loansData) {
+          if (Array.isArray(loansData)) {
+            rawLoans = loansData;
+          } else if (typeof loansData === 'object') {
+            rawLoans = 
+              loansData.loans || 
+              loansData.data || 
+              loansData.docs || 
+              [];
+          }
+        }
+
+        setData({ user, transactions: rawTransactions, loans: rawLoans });
       } catch (error) {
         console.error('Failed to fetch dashboard data on client:', error);
         router.push('/users/login');
@@ -98,7 +117,7 @@ export default function UserDashboard() {
     return null;
   }
 
-  const { user, transactions } = data;
+  const { user, transactions, loans } = data;
   const userAvatarUrl = user.avatarUrl || '/images/person.svg';
 
   return (
@@ -110,16 +129,15 @@ export default function UserDashboard() {
           <ProfileDashboardClient user={{ ...user, avatarUrl: userAvatarUrl }} />
 
           {/* Total Balance Section */}
-
-          <TotalBalance user={ {...user}} />
+          <TotalBalance user={{ ...user }} />
 
           {/* Account Details Section */}
           <AccountDetails user={{ ...user }} />
 
-          {/* Transaction History Section */}
+          {/* Transaction History & Loans Section */}
           <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-[100px] shadow-sm space-y-4">
-            <h2 className="text-xl font-bold text-gray-400">Transaction History</h2>
-            <TransactionHistoryTable transactions={transactions} />
+            <h2 className="text-xl font-bold text-gray-400">Transaction & Loan History</h2>
+            <TransactionHistoryTable transactions={transactions} loans={loans} />
           </div>
 
         </div>
