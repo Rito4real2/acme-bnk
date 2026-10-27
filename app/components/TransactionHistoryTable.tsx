@@ -62,7 +62,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
-            <tr className="border-b bg-gray-50 text-gray-600 uppercase text-xs font-mono">
+            <tr className="border-b bg-gray-800 text-gray-300 uppercase text-xs font-mono">
               <th className="p-3">{t('transactions.type', 'Type')}</th>
               <th className="p-3">{t('transactions.amount', 'Amount')}</th>
               <th className="p-3">{t('transactions.method', 'Details / Method')}</th>
@@ -75,7 +75,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
             {displayedItems.map((item: any) => {
               const isLoan = item.isLoan;
               return (
-                <tr key={item._id} className="hover:bg-gray-50">
+                <tr key={item._id} className="hover:bg-gray-800">
                   <td className="p-3 font-semibold font-mono">
                     <span
                       className={
@@ -92,13 +92,13 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                       }
                   </span>
                 </td>
-                <td className="p-3 font-bold">
+                <td className="p-3 font-bold text-gray-200">
                   ${typeof item.amount === 'number' ? item.amount.toFixed(2) : item.amount}
                 </td>
                 <td className="p-3 font-mono text-xs">
                   {isLoan ? (
-                    <span className="text-gray-600 truncate max-w-[180px] block" title={item.purposeOfLoan}>
-                      {item.purposeOfLoan} ({item.loanDuration} mos)
+                    <span className="text-gray-200 truncate max-w-[180px] block" title={item.purposeOfLoan}>
+                      {item.purposeOfLoan} ({item.loanDuration} months)
                     </span>
                   ) : (
                     <span>
@@ -122,7 +122,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                       {item.status}
                     </span>
                   </td>
-                  <td className="p-3 text-gray-500 font-mono text-xs">
+                  <td className="p-3 text-gray-300 font-mono text-xs">
                     {item.createdAt
                       ? new Date(item.createdAt).toLocaleDateString(i18n.language)
                       : t('common.not_applicable', 'N/A')}
@@ -133,7 +133,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                         setSelectedTx(item);
                         setModalType(isLoan ? 'loan' : 'transaction');
                       }}
-                      className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded border text-xs font-medium font-mono transition cursor-pointer"
+                      className="shadow-sm px-3 py-1 bg-red-700 hover:bg-red-600 text-gray-200 rounded text-xs font-medium font-mono transition cursor-pointer"
                     >
                       {t('transactions.view', 'View')}
                     </button>
@@ -169,8 +169,8 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
       {/* Loan Details Modal */}
       {selectedTx && modalType === 'loan' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md space-y-4 text-gray-800 font-mono">
-            <h3 className="text-xl font-bold text-amber-600">Loan Application Details</h3>
+          <div className="bg-gray-900 p-6 rounded-2xl shadow-xl w-full max-w-md space-y-4 text-red-800 font-mono">
+            <h3 className="text-xl font-bold text-gray-400">Loan Application Details</h3>
             <div className="space-y-2 text-sm">
               <p>
                 <strong>Amount:</strong> ${selectedTx.loanAmount?.toFixed(2)}
@@ -200,7 +200,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                     href={selectedTx.bankStatementUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline"
+                    className="text-blue-600 hover:underline"
                   >
                     View Document
                   </a>
@@ -209,7 +209,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
             </div>
             <button
               onClick={() => setSelectedTx(null)}
-              className="w-full py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition cursor-pointer"
+              className="w-full py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-600 transition cursor-pointer"
             >
               Close
             </button>
