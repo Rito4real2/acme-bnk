@@ -19,7 +19,7 @@ const NavigationBar = () => {
   ];
 
   return (
-    <nav aria-label="Main Navigation" className="fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <nav aria-label="Main Navigation" className="fixed bottom-2 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
       <div className="pointer-events-auto flex items-center justify-around bg-gray-900/95 backdrop-blur-md rounded-2xl w-full max-w-md px-3 py-2 shadow-2xl border border-gray-800">
 
         {/* Transfer Link */}
@@ -29,7 +29,7 @@ const NavigationBar = () => {
               <div key={index} className="relative flex flex-col items-center">
                 <Link
                   href={item.href}
-                  className="absolute -top-0 flex items-center justify-center bg-gray-500 hover:bg-gray-400 text-white hover:text-red-600 rounded-full shadow-lg border-4 border-gray-900 w-14 h-14 transition-transform active:scale-95 mt-1"
+                  className="absolute -top-2 flex items-center justify-center bg-gray-500 hover:bg-gray-400 text-white hover:text-red-600 rounded-full shadow-lg border-4 border-gray-900 w-14 h-14 transition-transform active:scale-95 mt-1"
                   title={item.name}
                 >
                   <Image
