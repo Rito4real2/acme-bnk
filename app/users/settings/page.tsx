@@ -6,6 +6,7 @@ import ProfileForm from '@/app/components/ProfileForm';
 import AvatarUpload from '@/app/components/AvatarUpload';
 import KycUpload from '@/app/components/KycUpload';
 import EmailVerification from '@/app/components/EmailVerification';
+import UserLogoutButton from '@/app/components/UserLogoutButton';
 
 export default function UserSettingsPage() {
   const [userData, setUserData] = useState({
@@ -94,6 +95,9 @@ export default function UserSettingsPage() {
 
         {/* Existing Profile Form */}
         <ProfileForm />
+
+        {/* Logout button */}
+        <UserLogoutButton />
         
       </div>
     </div>

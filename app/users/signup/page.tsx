@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -77,7 +78,20 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border border-gray-700 space-y-6">
+      {/* Top Back Navigation Bar */}
+            <Link 
+              href='/'
+              className='mb-5 p-4 flex items-center justify-start bg-gray-700 rounded-lg w-full fixed top-0 max-w-xl left-1/2 -translate-x-1/2 hover:bg-gray-600 transition-colors'
+            >
+              <Image 
+                src='/images/back.svg' 
+                alt='back' 
+                height={20} 
+                width={20}
+              />
+              <span className="text-white text-sm ml-2">Back to Homepage</span>
+            </Link>
+      <div className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border border-gray-700 space-y-6 mt-14">
 
         {/* Top Header / Brand */}
         <div className="w-full max-w-7xl mx-auto flex justify-center">
