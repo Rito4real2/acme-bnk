@@ -29,7 +29,7 @@ const NavigationBar = () => {
               <div key={index} className="relative flex flex-col items-center">
                 <Link
                   href={item.href}
-                  className="absolute -top-2 flex items-center justify-center bg-gray-500 hover:bg-gray-400 text-white hover:text-red-600 rounded-full shadow-lg border-4 border-gray-900 w-14 h-14 transition-transform active:scale-95 mt-1"
+                  className="absolute -top-0 flex items-center justify-center bg-gray-500 hover:bg-gray-400 text-white hover:text-red-600 rounded-full shadow-lg border-4 border-gray-900 w-14 h-14 transition-transform active:scale-95 mt-1"
                   title={item.name}
                 >
                   <Image
