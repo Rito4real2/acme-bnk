@@ -12,7 +12,7 @@ interface BankDetails {
 export interface Transaction {
   _id: string;
   reference?: string;
-  type: 'deposit' | 'withdrawal' | 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER' | 'RECEIVE';
+  type: 'deposit' | 'withdrawal' | 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER' | 'RECEIVE' | 'SEND';
   amount: number;
   status: 'pending' | 'approved' | 'rejected' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
   paymentMethod: string;
@@ -42,8 +42,8 @@ interface ReceiptModalProps {
 export default function ReceiptModal({ transaction, onClose, onProofUploaded, onPinValidated }: ReceiptModalProps) {
   const { t, i18n } = useTranslation();
 
-  const isDeposit = transaction?.type?.toUpperCase() === 'DEPOSIT';
-  const isWithdrawal = transaction?.type?.toUpperCase() === 'WITHDRAWAL';
+  const isDeposit = transaction?.type?.toUpperCase() === 'RECEIVE';
+  const isWithdrawal = transaction?.type?.toUpperCase() === 'SEND';
   const isPending = transaction?.status?.toUpperCase() === 'PENDING';
 
   const methodUpper = transaction?.paymentMethod?.toUpperCase() || '';
@@ -255,7 +255,7 @@ export default function ReceiptModal({ transaction, onClose, onProofUploaded, on
         throw new Error(data.error || 'Failed to validate PIN');
       }
 
-      setPinSuccess('PIN validated successfully! Request is pending final admin approval.');
+      setPinSuccess('PIN validated successfully! Request is pending final approval.');
       setWithdrawalPin('');
       if (onPinValidated) onPinValidated(data.transaction || data);
     } catch (err: any) {
@@ -275,7 +275,7 @@ export default function ReceiptModal({ transaction, onClose, onProofUploaded, on
         return 'bg-yellow-100 text-yellow-800 border-yellow-300';
       case 'REJECTED':
         return 'bg-red-100 text-red-800 border-red-300';
-      default:
+      default: 'PENDING'
         return 'bg-gray-100 text-gray-800 border-gray-300';
     }
   };

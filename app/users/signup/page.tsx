@@ -10,10 +10,11 @@ export default function RegisterPage() {
     fullName: '',
     userName: '',
     emailAddress: '',
+    gender: '',
+    country: '',
+    currency: '',
     password: '',
     confirmPassword: '',
-    country: '',
-    currency: ''
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -34,6 +35,7 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
+    console.log('Submitting Form Data:', formData);
     setError(null);
 
     if (formData.password !== formData.confirmPassword) {
@@ -153,6 +155,22 @@ export default function RegisterPage() {
               placeholder="john@example.com"
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium font-mono text-red-700">Gender</label>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border rounded mt-1 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm bg-gray-300"
+            >
+              <option value="" disabled>Select your gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div>

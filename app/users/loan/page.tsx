@@ -4,6 +4,7 @@ import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import NavigationBar from '@/app/components/NavigationBar';
 
 export default function LoanApplicationPage() {
   const router = useRouter();
@@ -129,7 +130,7 @@ export default function LoanApplicationPage() {
       {/* Top Back Navigation Bar */}
       <Link 
         href='/users/dashboard'
-        className='mb-5 p-4 flex items-center justify-start bg-gray-700 rounded-lg w-full fixed top-0 max-w-xl left-1/2 -translate-x-1/2 mt-4 hover:bg-gray-600 transition-colors'
+        className='mb-5 p-4 flex items-center justify-start bg-gray-700 rounded-b-2xl rounded-bl-2xl w-full fixed top-0 max-w-xl left-1/2 -translate-x-1/2 hover:bg-gray-600 transition-colors'
       >
         <Image 
           src='/images/back.svg' 
@@ -299,6 +300,9 @@ export default function LoanApplicationPage() {
           </div>
         </div>
       )}
+
+      {/* Navigation Bar */}
+      <NavigationBar />
 
     </div>
   );

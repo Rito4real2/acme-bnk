@@ -35,6 +35,7 @@ const LandingPage = () => {
             alt='Bank background image'
             fill
             sizes="100vw"
+            loading='eager'
             className="object-cover object-center"
             ></Image>
 

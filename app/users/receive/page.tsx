@@ -1,0 +1,177 @@
+// client/src/app/users/deposit/page.tsx
+'use client';
+
+import { useState, useEffect, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import ReceiptModal, { Transaction } from '@/components/ReceiptModal';
+import '@/lib/locales/i18n'; // Force i18n instance initialization safely
+import { useTranslation } from 'react-i18next';
+
+const CRYPTO_OPTIONS = [
+  { id: 'USDT', label: 'USDT (Tether)' },
+  { id: 'BTC', label: 'Bitcoin (BTC)' },
+  { id: 'ETH', label: 'Ethereum (ETH)' },
+  { id: 'SOL', label: 'Solana (SOL)' },
+  { id: 'USDC', label: 'USD Coin (USDC)' },
+];
+
+export default function DepositPage() {
+  const [amount, setAmount] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('Credit/Debit Card');
+  const [selectedCrypto, setSelectedCrypto] = useState('USDT');
+
+  const [status, setStatus] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  // State to hold the submitted transaction for the Receipt Modal
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+
+  const router = useRouter();
+  const { t } = useTranslation();
+
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  const handleDeposit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus(null);
+    setError(null);
+
+    // Send specific crypto currency code if payment method is CRYPTO
+    const effectivePaymentMethod = paymentMethod === 'CRYPTO' ? selectedCrypto : paymentMethod;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/transaction/receive`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          amount: Number(amount),
+          paymentMethod: effectivePaymentMethod,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Failed to submit deposit request');
+        return;
+      }
+
+      setStatus(
+        data.message ||
+          t('deposit.request_submitted', `Request for $${amount} submitted! Pending processing.`, { amount })
+      );
+
+      // 1. Trigger the Receipt Modal by setting the returned transaction object
+      if (data.transaction) {
+        setSelectedTransaction(data.transaction);
+      }
+
+      // Reset form input
+      setAmount('');
+      router.refresh();
+    } catch (err) {
+      setError(
+        t('deposit.connection_error', 'Unable to connect to the server. Please try again.')
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTransaction(null);
+    router.push('/users/dashboard');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-800 p-6 flex justify-center items-center">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-sm border border-gray-900 w-full max-w-md space-y-6">
+        <div className="flex flex-col justify-between items-start gap-9">
+          <h1 className="text-2xl font-bold font-mono text-green-800">{t('deposit.title', 'Receive Funds')}</h1>
+          <p className="text-2xl font-bold font-mono text-gray-300">Select Your Payment Method</p>
+        </div>
+
+        {status && (
+          <div className="p-3 bg-green-100 border border-green-300 text-green-800 text-sm rounded font-mono">
+            {status}
+          </div>
+        )}
+        {error && (
+          <div className="p-3 bg-red-100 border border-red-300 text-red-800 text-sm rounded font-mono">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleDeposit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium font-mono text-green-700">
+              {t('deposit.payment_method', 'Payment Method')}
+            </label>
+            <select
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="w-full p-2 border rounded mt-1 text-gray-800 bg-white font-mono"
+            >
+              <option value="Credit/Debit Card">{t('deposit.card', 'Credit / Debit Card')}</option>
+              <option value="BANK_TRANSFER">{t('deposit.bank_transfer', 'Bank Transfer')}</option>
+              <option value="CRYPTO">{t('deposit.crypto', 'Crypto')}</option>
+            </select>
+          </div>
+
+          {/* Conditional Crypto Selection Tag */}
+          {paymentMethod === 'CRYPTO' && (
+            <div>
+              <label className="block text-sm font-medium text-green-700 font-mono">
+                {t('deposit.select_crypto', 'Select Cryptocurrency')}
+              </label>
+              <select
+                value={selectedCrypto}
+                onChange={(e) => setSelectedCrypto(e.target.value)}
+                className="w-full p-2 border rounded mt-1 text-gray-800 bg-white font-mono focus:outline-green-700"
+              >
+                {CRYPTO_OPTIONS.map((crypto) => (
+                  <option key={crypto.id} value={crypto.id}>
+                    {crypto.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-green-700 font-mono">
+              {t('deposit.amount', 'Amount ($)')}
+            </label>
+            <input
+              type="number"
+              min="1"
+              step="any"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-full p-2 border rounded mt-1 text-gray-800 bg-gray-200 focus:outline-green-700"
+              placeholder="100.00"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2 bg-linear-to-r from-green-950 via-green-900 to-green-800 text-white rounded font-medium hover:bg-green-700 transition disabled:opacity-50 cursor-pointer font-mono"
+          >
+            {loading ? t('deposit.submitting', 'Submitting...') : t('deposit.submit', 'Submit Deposit Request')}
+          </button>
+        </form>
+      </div>
+
+      {/* Receipt Modal Component */}
+      <ReceiptModal 
+        transaction={selectedTransaction} 
+        onClose={handleCloseModal} 
+      />
+    </div>
+  );
+}

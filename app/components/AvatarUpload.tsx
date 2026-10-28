@@ -81,6 +81,8 @@ export default function AvatarUpload({
     }
   };
 
+  const upload = {id: 1, src: '/images/upload.svg'}
+
   return (
     <div className="bg-gray-800 p-6 rounded-xl border border-gray-900 shadow-sm flex flex-col items-center sm:flex-row gap-6">
       {/* Avatar Preview Ring */}
@@ -106,7 +108,10 @@ export default function AvatarUpload({
           PNG, JPG, or WEBP up to 5MB.
         </p>
 
-        <label className="inline-block cursor-pointer self-center sm:self-start px-4 py-2 text-sm font-mono font-bold text-gray-300 border-2 border-gray-900 bg-red-900 hover:bg-red-700 hover:text-white transition-colors rounded-md">
+        <label
+          title='Upload' 
+          className="flex flex-col cursor-pointer self-center justify-center items-center sm:self-start px-4 py-2 text-sm font-mono font-bold text-gray-300 border-2 border-gray-800 bg-red-900 hover:bg-red-700 hover:text-white transition-colors rounded-lg">
+          <Image src={upload.src} height={20} width={20} alt='upload'></Image>
           {uploading ? 'Processing...' : 'Upload New Picture'}
           <input
             type="file"

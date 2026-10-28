@@ -81,7 +81,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                       className={
                         isLoan
                           ? 'text-amber-600'
-                          : item.type?.toUpperCase() === 'DEPOSIT'
+                          : item.type?.toUpperCase() === 'RECEIVE'
                           ? 'text-green-600'
                           : 'text-red-600'
                       }
@@ -101,7 +101,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                       {item.purposeOfLoan} ({item.loanDuration} months)
                     </span>
                   ) : (
-                    <span>
+                    <span className='text-gray-200 font-mono text-sm'>
                       {t(
                         `transactions.paymentMethod.${item.paymentMethod?.toLowerCase()}`,
                         { defaultValue: item.paymentMethod || 'N/A' }

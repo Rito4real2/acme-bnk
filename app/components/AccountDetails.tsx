@@ -39,16 +39,16 @@ const AccountDetails = ({ user, children }: AccountDetailsProps) => {
   return (
     <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Account Section Card */}
-      <section className="bg-gray-800 text-white rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-6 w-full max-w-xl">
+      <section className="bg-linear-to-r from-red-950 via-red-900 to-red-800 text-white rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-6 w-full max-w-xl">
         {/* Top Header Row */}
-        <div className="flex items-center justify-center rounded-full shadow-sm w-20 px-2 py-0.5 bg-gray-700 text-center">
-          <span className="text-xs font-mono tracking-wider text-red-500 uppercase">
+        <div className="flex items-center justify-center rounded-full shadow-sm w-20 px-2 py-0.5 bg-red-200 text-center">
+          <span className="text-xs font-mono tracking-wider text-red-700 uppercase">
             {user.accountStatus}
           </span>
         </div>
 
         {/* Balance & Account Number Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end pt-4 border-t border-indigo-500/30">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end pt-4 border-t border-gray-200">
           
           {/* Account Number & Name */}
           <div className="flex flex-col gap-1">
@@ -62,7 +62,7 @@ const AccountDetails = ({ user, children }: AccountDetailsProps) => {
               <button
                 type="button"
                 onClick={() => handleCopyAccount(user.accountNumber)}
-                className="p-1.5 text-xs font-medium font-mono text-gray-300 bg-gray-800 hover:bg-gray-600 active:bg-gray-500 rounded transition cursor-pointer flex items-center justify-center shadow-sm"
+                className="p-1.5 text-xs font-medium font-mono text-gray-300 hover:bg-red-600 active:bg-red-500 rounded transition cursor-pointer flex items-center justify-center shadow-sm"
                 title="Copy Account Number"
               >
                 {copiedAcc ? (

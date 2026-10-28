@@ -12,8 +12,8 @@ interface NavItem {
 const NavigationBar = () => {
   const navItems: NavItem[] = [
     { name: 'Home', href: '/users/dashboard', icon: '/images/home.svg' },
-    { name: 'invest', href: '/dashboard/invest', icon: '/images/investment.svg' },
-    { name: 'Transfer', href: '/dashboard/transfer', icon: '/images/send.svg', isAction: true },
+    { name: 'invest', href: '/users/invest', icon: '/images/investment.svg' },
+    { name: 'Transfer', href: '/users/transfer', icon: '/images/send.svg', isAction: true },
     { name: 'Loan', href: '/users/loan', icon: '/images/loan.svg' },
     { name: 'Profile', href: '/users/settings', icon: '/images/person.svg' },
   ];
