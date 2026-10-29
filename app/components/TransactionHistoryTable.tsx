@@ -185,7 +185,7 @@ export default function TransactionHistoryTable({ transactions = [], loans = [] 
                 <strong>Employment Status:</strong> {selectedTx.employmentStatus}
               </p>
               <p>
-                <strong>Existing Debt:</strong> {selectedTx.exisitingDebt || 'No'}
+                <strong>Existing Debt:</strong> {selectedTx.exisitingDebt === true || selectedTx.exisitingDebt === 'true' ? 'Yes' : 'No'}
               </p>
               <p>
                 <strong>Purpose:</strong> {selectedTx.purposeOfLoan}
