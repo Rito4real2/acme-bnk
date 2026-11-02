@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ACME BANK",
+  title: "ASTROFINEX BANK",
   description: "World class banking application",
 };
 

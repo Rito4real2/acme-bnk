@@ -67,7 +67,7 @@ export default function UserLoginPage() {
         {/* Top Header / Brand */}
         <div className="w-full max-w-7xl mx-auto flex justify-center">
           <h1 className="text-red-800 font-mono text-xl sm:text-2xl font-bold tracking-wider bg-gray-800 px-3 py-1 rounded">
-            ACME BANK
+            ASTROFINEX BANK
           </h1>
         </div>
 

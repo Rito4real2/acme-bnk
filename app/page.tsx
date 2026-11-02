@@ -44,7 +44,7 @@ const LandingPage = () => {
         {/* Top Header / Brand */}
         <div className="w-full max-w-7xl mx-auto flex justify-end p-6 sm:p-10">
           <h1 className="text-amber-900 font-mono text-xl sm:text-2xl font-bold tracking-wider bg-white/80 px-3 py-1 rounded">
-            ACME BANK
+            ASTROFINEX BANK
           </h1>
         </div>
 
@@ -84,7 +84,7 @@ const LandingPage = () => {
 
           {/* Account Prompt */}
           <div className="flex flex-wrap items-center justify-center gap-2 text-center">
-            <p className="font-mono text-sm text-gray-300">Not an ACME user?</p>
+            <p className="font-mono text-sm text-gray-300">Not an Astrofinex user?</p>
             <Link 
               className="font-mono font-bold text-red-600 hover:text-amber-900 transition-colors"
               href="/users/signup"
@@ -117,7 +117,7 @@ const LandingPage = () => {
           {/* COPYRIGHT */}
           <div className="border-t border-gray-800 w-full pt-6 mt-4">
             <p className="font-mono text-xs sm:text-sm text-gray-400 text-center">
-              © 2026 ACME Bank PLC. All rights reserved.
+              © 2026 ASTROFINEX Bank PLC. All rights reserved.
             </p>
           </div>
 
