@@ -55,7 +55,7 @@ const LandingPage = () => {
               Banking Made Easy
             </span>
             <p className="font-mono text-sm sm:text-base text-gray-700">
-              Experience a new world of banking, simplified with the new ACME Bank Mobile Banking App.
+              Experience a new world of banking, simplified with the new ASTROFINEX Bank Mobile Banking App.
             </p>
           </div>
 
