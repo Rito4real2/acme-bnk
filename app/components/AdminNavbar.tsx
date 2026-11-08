@@ -9,7 +9,9 @@ export default function AdminNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   // 1. Auth status check function wrapped in useCallback
   const checkAuthStatus = useCallback(async () => {

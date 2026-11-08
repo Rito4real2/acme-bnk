@@ -13,7 +13,9 @@ export default function EmailVerification({ email, isVerified }: EmailProps) {
   const [loading, setLoading] = useState(false);
   const [verifyingToken, setVerifyingToken] = useState(false);
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   // Keep local state in sync if parent profile data updates
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function EmailVerification({ email, isVerified }: EmailProps) {
     setLoading(true);
     setMessage('');
     try {
-      const res = await fetch(`${backendUrl}/api/users/verify-email/request`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/verify-email/request`, {
         method: 'POST',
         credentials: 'include',
       });
@@ -55,7 +57,7 @@ export default function EmailVerification({ email, isVerified }: EmailProps) {
     setVerifyingToken(true);
     setMessage('Verifying your email...');
     try {
-      const res = await fetch(`${backendUrl}/api/users/verify-email/${token}`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/verify-email/${token}`, {
         method: 'GET',
         credentials: 'include',
       });

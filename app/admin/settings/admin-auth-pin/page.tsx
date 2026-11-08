@@ -8,12 +8,14 @@ export default function AdminPinGenerator() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${backendUrl}/api/users`, {
+      const res = await fetch(`${API_BASE_URL}/api/users`, {
         credentials: 'include'
       });
       const data = await res.json();
@@ -33,7 +35,7 @@ export default function AdminPinGenerator() {
     try {
       setMessage('');
       setError('');
-      const res = await fetch(`${backendUrl}/api/users/${userId}/generate-pin`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/${userId}/generate-pin`, {
         method: 'POST',
         credentials: 'include'
       });

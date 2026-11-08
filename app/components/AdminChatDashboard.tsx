@@ -16,10 +16,12 @@ export default function AdminChatDashboard({ adminUser }: { adminUser: { _id: st
 
     socket.connect();
 
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
     // Fetch all chat threads for the admin inbox using adminUser._id
-    fetch(`${backendUrl}/api/chat/admin/threads/${adminUser._id}`, { credentials: 'include' })
+    fetch(`${API_BASE_URL}/api/chat/admin/threads/${adminUser._id}`, { credentials: 'include' })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch chat threads');
         return res.json();
@@ -60,8 +62,10 @@ export default function AdminChatDashboard({ adminUser }: { adminUser: { _id: st
     socket.emit('join_room', targetUserId);
 
     // Fetch messages for this thread
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    fetch(`${backendUrl}/api/chat/messages/${targetUserId}`, { credentials: 'include' })
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+    fetch(`${API_BASE_URL}/api/chat/messages/${targetUserId}`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => setMessages(Array.isArray(data) ? data : []));
 

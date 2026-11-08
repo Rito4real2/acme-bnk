@@ -24,7 +24,9 @@ export default function WithdrawPage() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   // Step 1: Validate details and move to PIN entry screen
   const handleProceedToPin = (e: FormEvent<HTMLFormElement>) => {

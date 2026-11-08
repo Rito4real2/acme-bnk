@@ -30,8 +30,10 @@ export default function KycUpload({ kycStatus = 'NOT_SUBMITTED', rejectionReason
     setLoading(true);
     setMessage({ text: '', isError: false });
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const res = await fetch(`${API_URL}/api/users/kyc`, {
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+      const res = await fetch(`${API_BASE_URL}/api/users/kyc`, {
         method: 'POST',
         body: formData,
         credentials: 'include',

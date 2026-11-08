@@ -24,7 +24,9 @@ interface ProfileSettingsProps {
 export default function ProfileSettings({ initialData }: ProfileSettingsProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   // Profile Info States
   const [fullName, setFullName] = useState(initialData?.fullName || '');

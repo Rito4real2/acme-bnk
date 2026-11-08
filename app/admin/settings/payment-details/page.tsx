@@ -69,7 +69,9 @@ export default function AdminPaymentSettingsForm() {
     setStatusMessage(null);
 
     // Use relative path if target is same origin, or env var with fallback
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/transaction/payment-settings?type=${typeToFetch}`, {
@@ -143,7 +145,9 @@ export default function AdminPaymentSettingsForm() {
     setStatusMessage(null);
 
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
       
       // Ensure current selectedType is passed in payload
       const payload = {

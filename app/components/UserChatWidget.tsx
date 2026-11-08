@@ -21,8 +21,10 @@ export default function UserChatWidget({ user }: { user: { _id: string; name: st
     socket.emit('join_room', user._id);
 
     // Load initial message history
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    fetch(`${backendUrl}/api/chat/messages/${user._id}`, {
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+    fetch(`${API_BASE_URL}/api/chat/messages/${user._id}`, {
       credentials: 'include'
     })
       .then(res => res.json())

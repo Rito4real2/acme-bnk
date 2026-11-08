@@ -35,9 +35,11 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     async function fetchAdminData() {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
-        const res = await fetch(`${backendUrl}/api/auth/admin-dashboard-data`, {
+        const res = await fetch(`${API_BASE_URL}/api/auth/admin-dashboard-data`, {
           credentials: 'include',
           cache: 'no-store',
         });

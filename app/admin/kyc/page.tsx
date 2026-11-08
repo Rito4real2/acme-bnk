@@ -16,11 +16,13 @@ export default function AdminKycPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   const fetchPendingKyc = async () => {
     try {
-      const res = await fetch(`${backendUrl}/api/auth/kyc/pending`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/kyc/pending`, {
         credentials: 'include',
       });
       const data = await res.json();
@@ -44,7 +46,7 @@ export default function AdminKycPage() {
     }
 
     try {
-      const res = await fetch(`${backendUrl}/api/auth/kyc/${userId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/kyc/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, rejectionReason }),

@@ -22,8 +22,10 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const backEndUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
-      const res = await fetch(`${backEndUrl}/api/auth/admin-login`, {
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+      const res = await fetch(`${API_BASE_URL}/api/auth/admin-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include', // <--- CRITICAL: Allows browser to save HTTP-Only JWT Cookie

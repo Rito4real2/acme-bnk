@@ -19,11 +19,13 @@ export default function UserSettingsPage() {
     kycRejectionReason: '',
   });
 
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   const fetchUserProfile = useCallback(async () => {
     try {
-      const res = await fetch(`${backendUrl}/api/users/profile`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
         credentials: 'include',
       });
       const data = await res.json();
@@ -45,7 +47,7 @@ export default function UserSettingsPage() {
     } catch (err) {
       console.error('Error fetching user profile:', err);
     }
-  }, [backendUrl]);
+  }, [API_BASE_URL]);
 
   // Fetch profile on initial load
   useEffect(() => {

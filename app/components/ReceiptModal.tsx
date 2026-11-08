@@ -87,7 +87,9 @@ export default function ReceiptModal({ transaction, onClose, onProofUploaded, on
     if (!isDeposit || !transaction?.paymentMethod) return;
 
     setLoadingSettings(true);
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
     try {
       const queryMethod = encodeURIComponent(transaction.paymentMethod.trim().toUpperCase());
@@ -203,7 +205,9 @@ export default function ReceiptModal({ transaction, onClose, onProofUploaded, on
     try {
       const base64Image = await fileToBase64(selectedFile);
 
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
       const res = await fetch(`${API_BASE_URL}/api/transaction/${transaction._id}/upload-proof`, {
         method: 'PATCH',
         headers: {
@@ -239,7 +243,9 @@ export default function ReceiptModal({ transaction, onClose, onProofUploaded, on
     setPinError(null);
     setPinSuccess(null);
 
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/transaction/${transaction._id}/validate-pin`, {

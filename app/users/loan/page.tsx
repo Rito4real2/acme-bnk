@@ -30,8 +30,10 @@ export default function LoanApplicationPage() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${API_URL}/api/users/profile`, {
+        const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+        const res = await fetch(`${API_BASE_URL}/api/users/profile`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -88,8 +90,10 @@ export default function LoanApplicationPage() {
       dataPayload.append('purposeOfLoan', formData.purposeOfLoan);
       dataPayload.append('bankStatement', bankStatementFile);
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const res = await fetch(`${API_URL}/api/users/loans/apply`, {
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+      const res = await fetch(`${API_BASE_URL}/api/users/loans/apply`, {
         method: 'POST',
         credentials: 'include',
         body: dataPayload,
