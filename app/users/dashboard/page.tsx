@@ -40,7 +40,9 @@ export default function UserDashboard() {
   useEffect(() => {
     async function fetchDashboardData() {
       try {
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
         const [profileRes, txRes, loansRes] = await Promise.all([
           fetch(`${API_BASE_URL}/api/users/profile`, {
