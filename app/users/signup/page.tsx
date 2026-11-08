@@ -53,9 +53,12 @@ export default function RegisterPage() {
     try {
       const { confirmPassword, ...payload } = formData;
 
-      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+     // In your frontend API utility or config file:
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
-      const res = await fetch(`${backendUrl}/api/users/register`, {
+      const res = await fetch(`${API_BASE_URL}/api/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

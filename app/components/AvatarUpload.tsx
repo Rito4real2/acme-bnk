@@ -18,7 +18,10 @@ export default function AvatarUpload({
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  // In your frontend API utility or config file:
+  const API_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+    : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
   // 🔍 Keep local preview state synchronized when parent profile finishes loading/updating
   useEffect(() => {

@@ -18,7 +18,10 @@ export default function TransactionsPage() {
   useEffect(() => {
     async function fetchActivityData() {
       try {
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        // In your frontend API utility or config file:
+        const API_BASE_URL = process.env.NODE_ENV === 'production' 
+          ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+          : 'http://localhost:5000'; // In local dev, point directly to your local backend
 
         const [txRes, loansRes] = await Promise.all([
           fetch(`${API_BASE_URL}/api/transaction/my-history`, {

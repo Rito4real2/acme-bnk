@@ -19,8 +19,11 @@ export default function UserLoginPage() {
     setLoading(true);
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const res = await fetch(`${backendUrl}/api/users/login`, {
+      // In your frontend API utility or config file:
+      const API_BASE_URL = process.env.NODE_ENV === 'production' 
+        ? '' // In production (Vercel/Nginx), use relative paths so the proxy handles it
+        : 'http://localhost:5000'; // In local dev, point directly to your local backend
+      const res = await fetch(`${API_BASE_URL}/api/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
