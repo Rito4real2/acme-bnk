@@ -1,6 +1,12 @@
 import React from 'react';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import WhyChooseUs from './components/WhyChooseUs';
+import FAQAccordion from './components/FAQAccordion';
+import SupportContactForm from './components/SupportContactForm';
+import WhatsNew from './components/WhatsNew';
+import Testimonials from './components/Testimonials';
 import bank from '@/public/images/bank.png';
 import globe from '@/public/images/globe.svg';
 import chat from '@/public/images/chat.svg';
@@ -21,25 +27,44 @@ const LandingPage = () => {
     },
   ];
 
+  const contactDetails = [
+    {
+      id: 1,
+      imgSrc: '/images/agent.svg',
+      imageAlt: 'Phone support',
+      label: 'Phone',
+      details: '+1 (800) 555-0199',
+    },
+    {
+      id: 2,
+      imgSrc: '/images/email.svg',
+      imageAlt: 'Email support',
+      label: 'Email',
+      details: 'support@astrofinex.online',
+    },
+    {
+      id: 3,
+      imgSrc: '/images/location.svg',
+      imageAlt: 'Office address',
+      label: 'Office',
+      details: '711 Glory Road, Baxter, TN 38544',
+    },
+  ];
+
   return (
-     <div className='w-full h-full'>
-
+    <div className='w-full h-full'>
       {/* Hero Background Section  */}
-
       <main className='w-full h-[200px] mb-75'>
-
-          <div className='absolute inset-0 -z-10 w-full h-[500px]'>
-
-            <Image
+        <div className='absolute inset-0 -z-10 w-full h-[500px]'>
+          <Image
             src={bank}
             alt='Bank background image'
             fill
             sizes="100vw"
             loading='eager'
             className="object-cover object-center"
-            ></Image>
-
-          </div>
+          />
+        </div>
 
         {/* Top Header / Brand */}
         <div className="w-full max-w-7xl mx-auto flex justify-end p-6 sm:p-10">
@@ -75,11 +100,22 @@ const LandingPage = () => {
             </Link>
           </div>
         </div>
-
       </main>
 
+      {/* Assembled Landing Page Sections */}
+      <WhyChooseUs />
+      <WhatsNew />
+
+      {/* Suspense Boundary for Testimonials Carousel */}
+      <Suspense fallback={<div className="w-full py-20 text-center font-mono text-sm text-gray-500 bg-gray-900">Loading testimonials...</div>}>
+        <Testimonials />
+      </Suspense>
+
+      <FAQAccordion />
+      <SupportContactForm />
+
       {/* Footer Section */}
-      <footer className="bg-gray-900 text-white w-full pt-10 pb-6 px-4 mt-20">
+      <footer className="bg-gray-900 text-white w-full pt-10 pb-6 px-4">
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-8">
 
           {/* Account Prompt */}
@@ -114,16 +150,38 @@ const LandingPage = () => {
             ))}
           </div>
 
+          {/* Contact Us Section - Fixed with explicit return */}
+          <div className="w-full max-w-4xl mt-8 p-2">
+            <h1 className="font-mono text-xl sm:text-2xl font-bold text-gray-400">CONTACT US</h1>
+          </div>
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+            {contactDetails.map((d) => (
+              <section key={d.id} className='w-full bg-gray-800/50 p-4 rounded-xl border border-gray-800'>
+                <h2 className="font-mono text-sm text-cyan-400 font-bold mb-2">{d.label}</h2>
+                <div className="flex items-center gap-3">
+                  {d.imgSrc && (
+                    <img 
+                      src={d.imgSrc} 
+                      alt={d.imageAlt}
+                      width={20}
+                      height={20} 
+                    />
+                  )}
+                  <p className="font-mono text-xs text-gray-300">{d.details || '711 Glory Road, Baxter, TN 38544'}</p>
+                </div>
+              </section>
+            ))}
+          </div>
+
           {/* COPYRIGHT */}
           <div className="border-t border-gray-800 w-full pt-6 mt-4">
             <p className="font-mono text-xs sm:text-sm text-gray-400 text-center">
-              © 2026 ASTROFINEX Bank PLC. All rights reserved.
+              © 2020-2026 ASTROFINEX Bank PLC. All rights reserved.
             </p>
           </div>
 
         </div>
       </footer>
-
     </div>
   );
 };
